@@ -1,18 +1,155 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Meta tags requeridos -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
 
-    <title>Activity 6: AJAX request (? ...fetch!) + DOM manipulation</title>
+    <title>
+      Actividad 6: Solicitud AJAX (? ...fetch!) + Manipulación del DOM
+    </title>
   </head>
   <body>
-    <h1>Activity 6: AJAX request (? ...fetch!) + DOM manipulation</h1>
-    <p>With JS fetch load de data on the sibling file employees.json and build a table showing the data:</p>
-    <div id="table-container"></div>
+    <h1>Actividad 6: Solicitud AJAX (? ...fetch!) + Manipulación del DOM</h1>
+    <p>
+      Con JS fetch carga los datos del archivo employees.json y construye una
+      tabla para mostrar los datos:
+    </p>
+    <div id="table-container" class="container mt-4"></div>
+
+    <script>
+      // Función para crear la tabla a partir de los datos
+      function crearTabla(datos) {
+        // Crear tabla y encabezado
+        const tabla = document.createElement("table");
+        tabla.classList.add("table", "table-bordered", "table-striped");
+
+        const thead = document.createElement("thead");
+        thead.innerHTML = `
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Departamento</th>
+          </tr>
+        `;
+        tabla.appendChild(thead);
+
+        // Crear cuerpo de la tabla
+        const tbody = document.createElement("tbody");
+        datos.forEach((empleado) => {
+          const fila = document.createElement("tr");
+          fila.innerHTML = `
+            <td>${empleado.id}</td>
+            <td>${empleado.name}</td>
+            <td>${empleado.department}</td>
+          `;
+          tbody.appendChild(fila);
+        });
+
+        tabla.appendChild(tbody);
+        return tabla;
+      }
+
+      // Realizar la solicitud Fetch para obtener los datos del archivo JSON
+      fetch("employees.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const contenedorTabla = document.getElementById("table-container");
+          const tabla = crearTabla(data);
+          contenedorTabla.appendChild(tabla);
+        })
+    </script>
   </body>
 </html>
+
+
+<!--------------------------------------------------------------------------------------------------->
+
+
+<!-- 
+
+
+// Realizar la solicitud Fetch para obtener los datos del archivo JSON
+fetch("employees.json")
+  // El primer ".then" se ejecuta cuando la respuesta es recibida exitosamente
+  .then((response) => {
+    // Convertir la respuesta a formato JSON. 
+    // El método .json() devuelve una promesa que se resuelve con los datos en JSON.
+    return response.json();
+  })
+  // El segundo ".then" se ejecuta cuando los datos en formato JSON están listos
+  .then((data) => {
+    // Obtener el contenedor de la tabla a través del ID "table-container"
+    const contenedorTabla = document.getElementById("table-container");
+
+    // Llamar a una función personalizada (crearTabla) para crear una tabla
+    // con los datos obtenidos (asumo que esta función está definida en otro lugar)
+    const tabla = crearTabla(data);
+
+    // Agregar la tabla generada al contenedor en el DOM
+    contenedorTabla.appendChild(tabla);
+  });
+
+
+-->
+
+<!--------------------------------------------------------------------------------------------------->
+
+<!--
+
+
+MANERA DEL PROFE
+
+fetch("employees.json").then(
+  function(data){
+    console.log('ya tengo los datos', data);
+  }
+);
+console.log('se sigue ejecutando el codigo');
+
+
+NOTA: Primero se ejecuta el console log ('se sigue ejecutando el código') 
+y después el otro porque `fetch()` es una operación asíncrona. 
+Esto significa que la solicitud para obtener los datos del archivo JSON se envía y,
+mientras se espera la respuesta, el se continúa ejecutando.
+Cuando los datos finalmente están disponibles (una vez que el servidor responde), 
+se ejecuta el bloque de código dentro del `.then()`.
+Este comportamiento es gracias a las **promesas** en JavaScript.
+
+
+fetch("employees.json").then(
+  function(data){
+    return request.json()
+  }
+).then(
+  function(json){
+    console.log('los datos', JSON.parse(json));
+  }
+);
+
+
+NOTA: Primero se ejecuta la solicitud `fetch("employees.json")`.
+El código continúa ejecutándose mientras se espera la respuesta del servidor. 
+Una vez que el `fetch` recibe una respuesta, se ejecuta el primer `.then()`, 
+donde se convierte esa respuesta en JSON (`request.json()`), también de forma asíncrona. 
+El segundo `.then()` no se ejecuta hasta que los datos JSON han sido completamente 
+recibidos y procesados. Solo entonces, el bloque dentro del segundo `.then()` se ejecuta, donde se muestran los 
+datos en la consola (`console.log('los datos', JSON.parse(json));`).
+
+Es importante notar que, aunque los `.then()` se ejecutan en secuencia, el resto del código sigue corriendo mientras 
+se espera la respuesta del servidor, debido a la naturaleza no bloqueante y asíncrona de `fetch()`.
+
+
+-->
+

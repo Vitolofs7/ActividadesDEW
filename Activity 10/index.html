@@ -1,15 +1,31 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <title>Activity 10: Change the image</title>
-  </head>
-  <body>
+    <link rel="stylesheet" type="text/css" href="https://www3.gobiernodecanarias.org/educacion/cau_ce/cookies/cookieconsent.min.css"/>
+</head>
+<body>
     <h1>Activity 10: Change the image</h1>
-    <p>Change the following image with changed.png only if changed.png exists in the server (you need to add the images)</p>
-    <img src="./default.png" alt="just an image">
-  </body>
+    <p>Change the following image with images.png only if images.png exists in the server (you need to add the images)</p>
+    <img id="imageToChange" src="default.png" alt="just an image">
+
+    <script>
+        
+        var img = new Image();
+        img.src = 'images.png';  
+
+        img.onload = function() {
+            // Si la imagen carga, cambiarla
+            document.getElementById('imageToChange').src = img.src;
+        };
+
+        img.onerror = function() {
+            // Si hay un error al cargar la imagen, se mantiene la imagen por defecto
+            console.log('images.png no existe, se mantiene default.png');
+        };
+    </script>
+</body>
 </html>

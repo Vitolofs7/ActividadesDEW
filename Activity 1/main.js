@@ -12,7 +12,7 @@ button.onclick = function () {
         newElement.innerHTML(`\
         <ul>\
             <li>Name:${attractions.name}</li>\
-            <li>Description:${attractions.description}</li>\
+            <li>Description:${attraction.description}</li>\
         <ul>`);
         container.appendChild(newElement);
     });

@@ -1,22 +1,99 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <title>Activity 11: Consuming data from an external API</title>
   </head>
   <body>
     <h1>Activity 11: Consuming data from an external API</h1>
     <p>
-      We are going to meet <a href="https://cloud.google.com/maps-platform/places?hl=es">Google Maps Places</a>. And this is what we are going to do:
-      <ol>
-        <li>Add a form with an input text field and a submit button.</li>
-        <li>Capture submitting of the form.</li>        
-        <li>Use the text introduced to request places to GMaps Places API (JSON response).</li>
-        <li>Show the result in the page as a list of results.</li>
-      </ol>
+      We are going to use the
+      <a href="https://www.weatherapi.com/">WeatherAPI</a>. And this is what we
+      are going to do:
     </p>
+    <ol>
+      <li>Add a form with an input text field and a submit button.</li>
+      <li>Capture the submitting of the form.</li>
+      <li>
+        Use the text introduced to request city weather data from WeatherAPI
+        (JSON response).
+      </li>
+      <li>Show the result on the page as a list of results.</li>
+    </ol>
+
+    <h3>Escribe el nombre de una ciudad</h3>
+    <!-- Formulario para buscar el clima de una ciudad -->
+    <form id="places-form">
+      <input type="text" id="place-query" placeholder="Enter a city" required />
+      <button type="submit">Search</button>
+    </form>
+
+    <!-- Contenedor para mostrar los resultados -->
+    <div id="results">
+      <h2>Resultados de la búsqueda:</h2>
+    </div>
+
+    <script>
+      // Clave de API de WeatherAPI
+      const API_KEY = "d04909e5c9394f0b9c0145927241710";
+
+      // Captura el evento de envío del formulario
+      document
+        .getElementById("places-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Previene el comportamiento por defecto del formulario (recarga de página)
+
+          // Obtiene el valor introducido por el usuario en el campo de texto
+          const query = document.getElementById("place-query").value;
+
+          // Limpia los resultados anteriores
+          const resultsDiv = document.getElementById("results");
+          resultsDiv.innerHTML = "";
+
+          // Llama a la función para buscar el clima de la ciudad
+          fetchWeather(query);
+        });
+
+      // Función para solicitar datos del clima de una ciudad a la API
+      function fetchWeather(city) {
+        // Construye la URL del endpoint de la API usando la clave de API y el nombre de la ciudad
+        const endpoint = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(
+          city
+        )}&aqi=no`;
+
+        // Realiza la solicitud a la API
+        fetch(endpoint)
+          .then((response) => response.json()) // Convierte la respuesta en JSON
+          .then((data) => displayResults(data)) // Llama a la función para mostrar los resultados
+          .catch((error) =>
+            console.error("Error fetching weather data:", error) // Manejo de errores
+          );
+      }
+
+      // Función para mostrar los resultados en la página
+      function displayResults(weatherData) {
+        const resultsDiv = document.getElementById("results");
+        // Verifica si hay un error en los datos recibidos (ciudad no encontrada)
+        if (weatherData.error) {
+          resultsDiv.innerHTML = "City not found."; // Mensaje si la ciudad no se encuentra
+        } else {
+          // Extrae la información del clima de los datos recibidos
+          const cityName = weatherData.location.name; // Nombre de la ciudad
+          const temperature = weatherData.current.temp_c; // Temperatura en °C
+          const description = weatherData.current.condition.text; // Descripción del clima
+
+          // Muestra los resultados en la página
+          resultsDiv.innerHTML = `<h3>${cityName}</h3>
+                                  <p>Temperature: ${temperature}°C</p>
+                                  <p>Weather: ${description}</p>`;
+        }
+      }
+    </script>
   </body>
 </html>

@@ -1,19 +1,45 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Activity 4: DOM manipulation</title>
-  </head>
-  <body>
-    <h1>Activity 4: DOM manipulation</h1>
-    <p>On this activity we will show the data in the variable "employees" in this html as a table, build all the elements with js functions</p>
-    <div id="table-container"></div>
-    <script src="main.js"></script>
-  </body>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>Activity 4: DOM manipulation</title>
+</head>
+
+<body>
+  <h1>Activity 4: DOM manipulation</h1>
+  <p>On this activity we will show the data in the variable "employees" in this html as a table, build all the elements
+    with js functions</p>
+
+    <h1>Empleados</h1>
+    <table id="employeeTable" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Departamento</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <style>
+      #employeeTable{
+        margin-left: 20px;
+      }
+    </style>
+
+
+  <div id="table-container"></div>
+  <script src="main.js"></script>
+</body>
+
 </html>
